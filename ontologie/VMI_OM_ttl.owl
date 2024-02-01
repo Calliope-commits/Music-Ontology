@@ -1,0 +1,707 @@
+@prefix : <http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM> .
+
+<http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#APourMembre
+:APourMembre rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             owl:inverseOf :estLeMembreDe ;
+             rdfs:domain :Groupe ;
+             rdfs:range :Artiste ;
+             rdfs:comment "aPourMembre"@fr ,
+                          "un groupe est composé de membres : Grouper -> Artiste"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#aPourArtiste
+:aPourArtiste rdf:type owl:ObjectProperty ;
+              owl:inverseOf :estLartisteDe ;
+              rdfs:domain :Chanson ;
+              rdfs:range :Artiste .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#aPourAuteur
+:aPourAuteur rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf :aPourArtiste ,
+                                [ owl:inverseOf :estLartisteDe
+                                ] ;
+             owl:inverseOf :estLAuteurDe ;
+             rdfs:domain :Chanson ;
+             rdfs:range :Auteur .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#aPourCompositeur
+:aPourCompositeur rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf :aPourArtiste ,
+                                     [ owl:inverseOf :estLartisteDe
+                                     ] ;
+                  owl:inverseOf :estLeCompositeurDe ;
+                  rdfs:domain :Chanson ;
+                  rdfs:range :Compositeur .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#aPourGenreMusical
+:aPourGenreMusical rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :estDeGenreMusical ;
+                   rdfs:domain :Chanson ;
+                   rdfs:range :GrandGenreMusical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#aPourGroupe
+:aPourGroupe rdf:type owl:ObjectProperty ;
+             owl:inverseOf :estLeGroupeDe ;
+             rdfs:domain :Artiste ;
+             rdfs:range :Groupe ;
+             rdfs:comment "un artiste a pour groupe , un Groupe : Artiste -> Groupe"@fr ;
+             rdfs:label "aPourGroupe" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#aPourInterprete
+:aPourInterprete rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf :aPourArtiste ,
+                                    [ owl:inverseOf :estLartisteDe
+                                    ] ;
+                 owl:inverseOf :estLInterpreteDe ;
+                 rdfs:domain :Chanson ;
+                 rdfs:range :Interprete .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#aPourSousCategorieMusicale
+:aPourSousCategorieMusicale rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf owl:topObjectProperty ;
+                            owl:inverseOf :estDeSousCategorieMusicale ;
+                            rdf:type owl:TransitiveProperty ;
+                            rdfs:domain :GrandGenreMusical ;
+                            rdfs:range :Sous_Categorie_Genre_Musical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#compose
+:compose rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         owl:inverseOf :estComposéDe ;
+         rdfs:domain :Chanson ;
+         rdfs:range :Album ;
+         rdfs:comment "compose"@fr ,
+                      "une chanson compose un album"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estComposéDe
+:estComposéDe rdf:type owl:ObjectProperty ;
+              rdfs:domain :Album ;
+              rdfs:range :Chanson ;
+              rdfs:comment "Un album est composé de plusieurs chansons Album --> Chanson"@fr ;
+              rdfs:label "estComposéDe"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estDeGenreMusical
+:estDeGenreMusical rdf:type owl:ObjectProperty ;
+                   rdfs:domain :GrandGenreMusical ;
+                   rdfs:range :Chanson .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estDeSousCategorieMusicale
+:estDeSousCategorieMusicale rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf owl:topObjectProperty ;
+                            rdf:type owl:TransitiveProperty ;
+                            rdfs:domain :Sous_Categorie_Genre_Musical ;
+                            rdfs:range :GrandGenreMusical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estLAuteurDe
+:estLAuteurDe rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf :estLartisteDe ,
+                                 [ owl:inverseOf :aPourArtiste
+                                 ] ;
+              rdfs:domain :Auteur ;
+              rdfs:range :Chanson .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estLInterpreteDe
+:estLInterpreteDe rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf :estLartisteDe ;
+                  rdfs:domain :Interprete ;
+                  rdfs:range :Chanson .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estLartisteDe
+:estLartisteDe rdf:type owl:ObjectProperty ;
+               rdfs:domain :Artiste ;
+               rdfs:range :Chanson .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estLeCompositeurDe
+:estLeCompositeurDe rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf :estLartisteDe ,
+                                       [ owl:inverseOf :aPourArtiste
+                                       ] ;
+                    rdfs:domain :Compositeur ;
+                    rdfs:range :Chanson .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estLeGroupeDe
+:estLeGroupeDe rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdfs:domain :Groupe ;
+               rdfs:range :Artiste ;
+               rdfs:comment "estLeGroupeDe"@fr ,
+                            "le groupe un tel , est le groupe d'un artiste : Groupe -> Artiste"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#estLeMembreDe
+:estLeMembreDe rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdfs:domain :Artiste ;
+               rdfs:range :Groupe ;
+               rdfs:comment "Artiste -> Groupe"@fr ;
+               rdfs:label "estLeMembreDe"@fr .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#dateDeParutionAlbum
+:dateDeParutionAlbum rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf owl:topDataProperty ;
+                     rdfs:domain :Album ;
+                     rdfs:range rdfs:Literal ;
+                     rdfs:comment "La date de parution est le moment où l'albm paraît pour la première fois"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#dateFormationGroupe
+:dateFormationGroupe rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf owl:topDataProperty ;
+                     rdfs:domain :Groupe ;
+                     rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#dateNaissanceArtiste
+:dateNaissanceArtiste rdf:type owl:DatatypeProperty ;
+                      rdfs:subPropertyOf owl:topDataProperty ;
+                      rdfs:domain :Artiste ;
+                      rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#dateParutionChanson
+:dateParutionChanson rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :Chanson ;
+                     rdfs:range rdfs:Literal ;
+                     rdfs:comment "La date de parution est le moment où une chanson paraît pour la première fois"@fr ;
+                     rdfs:label "dateParutionChanson"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#dateSeparationGroupe
+:dateSeparationGroupe rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Groupe ;
+                      rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#dureeChanson
+:dureeChanson rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:domain :Chanson ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "duree de la chanson , sous le format \"3mn05\""@fr ;
+              rdfs:label "dureeChanson"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#idChanson
+:idChanson rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdfs:domain :Chanson ;
+           rdfs:range xsd:integer ;
+           rdfs:comment "le numéro de la chanson dans l'album"@fr ;
+           rdfs:label "idChanson"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#nationaliteArtiste
+:nationaliteArtiste rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf owl:topDataProperty ;
+                    rdfs:domain :Artiste ;
+                    rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#nbVente
+:nbVente rdf:type owl:DatatypeProperty ,
+                  owl:FunctionalProperty ;
+         rdfs:domain :Album ;
+         rdfs:range xsd:integer ;
+         rdfs:comment "nb de ventes d'un album"@fr ;
+         rdfs:label "nbVente"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#nomArtiste
+:nomArtiste rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain :Artiste ;
+            rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#nomGroupe
+:nomGroupe rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdfs:domain :Groupe ;
+           rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#prenomArtiste
+:prenomArtiste rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf owl:topDataProperty ;
+               rdfs:domain :Artiste ;
+               rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#titreAlbum
+:titreAlbum rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain :Album ;
+            rdfs:range rdfs:Literal ;
+            rdfs:comment "titre de l'album"@fr ;
+            rdfs:label "titreAlbum"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#titreChanson
+:titreChanson rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:domain :Chanson ;
+              rdfs:range xsd:string ;
+              rdfs:comment "titre de la chanson"@fr ;
+              rdfs:label "titreChanson"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#typeDeGenreMusical
+:typeDeGenreMusical rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf owl:topDataProperty ;
+                    rdfs:domain :GrandGenreMusical ;
+                    rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#typeDeSousCategorieMusicale
+:typeDeSousCategorieMusicale rdf:type owl:DatatypeProperty ;
+                             rdfs:domain :Sous_Categorie_Genre_Musical ;
+                             rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Album
+:Album rdf:type owl:Class ;
+       owl:equivalentClass [ rdf:type owl:Restriction ;
+                             owl:onProperty :estComposéDe ;
+                             owl:someValuesFrom :Chanson
+                           ] ;
+       owl:disjointWith :Artiste ,
+                        :Chanson ,
+                        :GrandGenreMusical ,
+                        :Groupe ;
+       rdfs:comment "Un disque de certification est une récompense remise à un artiste pour souligner qu’un album ou un single s'est vendu à un certain nombre d'exemplaires. La certification est effectuée par un organisme officiel chargé de vérifier que le seuil requis a bien été atteint"@fr ;
+       rdfs:label "disque de certification"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Artiste
+:Artiste rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :estLartisteDe ;
+                                                      owl:someValuesFrom :Chanson
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :estLeMembreDe ;
+                                                      owl:someValuesFrom :Groupe
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :estLartisteDe ;
+                               owl:someValuesFrom :Chanson
+                             ] ;
+         owl:disjointWith :Chanson ,
+                          :GrandGenreMusical ,
+                          :Groupe ;
+         rdfs:label "Artiste"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Auteur
+:Auteur rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( :Artiste
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :estLAuteurDe ;
+                                                     owl:someValuesFrom :Chanson
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] ;
+        rdfs:subClassOf :Artiste ;
+        rdfs:comment "Un auteur-compositeur est une personne qui compose les paroles et la musique de chansons. Quand elle les interprète également, on parle d'auteur-compositeur-interprète. Si une personne n'écrit que les paroles, il s'agit d'un parolier, et si elle n'écrit que la musique, il s'agit d'un compositeur."@fr ;
+        rdfs:label "Auteur"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Chanson
+:Chanson rdf:type owl:Class ;
+         owl:equivalentClass [ rdf:type owl:Restriction ;
+                               owl:onProperty :aPourArtiste ;
+                               owl:someValuesFrom :Artiste
+                             ] ;
+         owl:disjointWith :GrandGenreMusical ,
+                          :Groupe ;
+         rdfs:comment "Une chanson est le produit d'un artiste (interprete, compositeur , auteur)"@fr ;
+         rdfs:label "Chanson" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Compositeur
+:Compositeur rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( :Artiste
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :estLeCompositeurDe ;
+                                                          owl:someValuesFrom :Chanson
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:subClassOf :Artiste ;
+             rdfs:comment "Un compositeur ou une compositrice (du latin compositor, lui-même de compositum, supin signifiant « pour composer » du verbe componere) est une personne qui élabore de la musique."@fr ;
+             rdfs:label "Compositeur"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Diamant
+:Diamant rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( :Album
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :nbVente ;
+                                                      owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                           owl:onDatatype xsd:integer ;
+                                                                           owl:withRestrictions ( [ xsd:minInclusive 500000
+                                                                                                  ]
+                                                                                                  [ xsd:maxExclusive 1000000
+                                                                                                  ]
+                                                                                                )
+                                                                         ]
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+         rdfs:subClassOf :Album ;
+         owl:disjointWith :DoubleDiamant ,
+                          :DoublePlatine ,
+                          :Or ,
+                          :Platine ,
+                          :TriplePlatine ;
+         rdfs:comment "500 000 ventes"@fr ;
+         rdfs:label "Diamant" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#DoubleDiamant
+:DoubleDiamant rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( :Album
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :nbVente ;
+                                                            owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                 owl:onDatatype xsd:integer ;
+                                                                                 owl:withRestrictions ( [ xsd:minInclusive 1000000
+                                                                                                        ]
+                                                                                                      )
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf :Album ;
+               owl:disjointWith :DoublePlatine ,
+                                :Or ,
+                                :Platine ,
+                                :TriplePlatine ;
+               rdfs:label "DoubleDiamant"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#DoublePlatine
+:DoublePlatine rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( :Album
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :nbVente ;
+                                                            owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                 owl:onDatatype xsd:integer ;
+                                                                                 owl:withRestrictions ( [ xsd:minInclusive 200000
+                                                                                                        ]
+                                                                                                        [ xsd:maxExclusive 300000
+                                                                                                        ]
+                                                                                                      )
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf :Album ;
+               owl:disjointWith :Or ,
+                                :Platine ,
+                                :TriplePlatine .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#GrandGenreMusical
+:GrandGenreMusical rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :aPourSousCategorieMusicale ;
+                                                                owl:someValuesFrom :Sous_Categorie_Genre_Musical
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :estDeGenreMusical ;
+                                                                owl:someValuesFrom :Chanson
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   owl:disjointWith :Groupe .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Groupe
+:Groupe rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :estLeGroupeDe ;
+                                                     owl:someValuesFrom :Artiste
+                                                   ]
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :APourMembre ;
+                                                     owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :Artiste
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] ;
+        rdfs:comment "Groupe composé d'artiste, il est donc composé au minimum de deux artistes"@fr ;
+        rdfs:label "Groupe"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Interprete
+:Interprete rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :Artiste
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :estLInterpreteDe ;
+                                                         owl:someValuesFrom :Chanson
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:subClassOf :Artiste ;
+            rdfs:comment "Dans le domaine musical, un interprète est un musicien (chanteur, instrumentiste, chef d'orchestre ou chef de chœur) dont la spécialité est de réaliser un projet musical donné, planifié par un autre musicien, appelé compositeur."@fr ;
+            rdfs:label "Interprete"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Or
+:Or rdf:type owl:Class ;
+    owl:equivalentClass [ owl:intersectionOf ( :Album
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :nbVente ;
+                                                 owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                      owl:onDatatype xsd:integer ;
+                                                                      owl:withRestrictions ( [ xsd:minInclusive 50000
+                                                                                             ]
+                                                                                             [ xsd:maxExclusive 100000
+                                                                                             ]
+                                                                                           )
+                                                                    ]
+                                               ]
+                                             ) ;
+                          rdf:type owl:Class
+                        ] ;
+    rdfs:subClassOf :Album ;
+    owl:disjointWith :Platine ,
+                     :TriplePlatine ;
+    rdfs:comment "50 000 ventes nécessaires pour cette certificatiin"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Platine
+:Platine rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( :Album
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :nbVente ;
+                                                      owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                           owl:onDatatype xsd:integer ;
+                                                                           owl:withRestrictions ( [ xsd:minInclusive 100000
+                                                                                                  ]
+                                                                                                  [ xsd:maxExclusive 200000
+                                                                                                  ]
+                                                                                                )
+                                                                         ]
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+         rdfs:subClassOf :Album ;
+         owl:disjointWith :TriplePlatine ;
+         rdfs:comment "100 000 ventes pour cette certification"@fr ;
+         rdfs:label "Platine" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Sous_Categorie_Genre_Musical
+:Sous_Categorie_Genre_Musical rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( :GrandGenreMusical
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty :estDeSousCategorieMusicale ;
+                                                                           owl:someValuesFrom :GrandGenreMusical
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:subClassOf :GrandGenreMusical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#TriplePlatine
+:TriplePlatine rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( :Album
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :nbVente ;
+                                                            owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                 owl:onDatatype xsd:integer ;
+                                                                                 owl:withRestrictions ( [ xsd:minInclusive 300000
+                                                                                                        ]
+                                                                                                        [ xsd:maxExclusive 500000
+                                                                                                        ]
+                                                                                                      )
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf :Album ;
+               rdfs:label "300 000 ventes"@fr ,
+                          "Triple platine"@fr .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#AnotherStar
+:AnotherStar rdf:type owl:NamedIndividual ,
+                      :Chanson ;
+             :aPourArtiste :StevieWonder ;
+             :aPourGenreMusical :Disco ;
+             :compose :SongsInTheKeyOfLife ;
+             :dateParutionChanson "aout 1977"@fr ;
+             :dureeChanson "8mn28" ;
+             :idChanson 4 ;
+             :titreChanson "Another Star" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#As
+:As rdf:type owl:NamedIndividual ,
+             :Chanson ;
+    :aPourArtiste :StevieWonder ;
+    :aPourGenreMusical :Soul ;
+    :dateParutionChanson "octobre 1977"@fr ;
+    :dureeChanson "7mn08"@fr ;
+    :idChanson 5 ;
+    :titreChanson "As" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#DaftPunk
+:DaftPunk rdf:type owl:NamedIndividual ,
+                   :Groupe ;
+          :dateFormationGroupe "1993"@fr ;
+          :dateSeparationGroupe "2021"@fr ;
+          :nomGroupe "Daft Punk"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Disco
+:Disco rdf:type owl:NamedIndividual ,
+                :GrandGenreMusical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Funk
+:Funk rdf:type owl:NamedIndividual ,
+               :GrandGenreMusical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#GuyMan
+:GuyMan rdf:type owl:NamedIndividual ,
+                 :Artiste ;
+        :estLeMembreDe :DaftPunk ;
+        :nomArtiste "Man" ;
+        :prenomArtiste "Guy" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#IWish
+:IWish rdf:type owl:NamedIndividual ,
+                :Chanson ;
+       :aPourArtiste :StevieWonder ;
+       :aPourGenreMusical :Funk ;
+       :compose :SongsInTheKeyOfLife ;
+       :dateParutionChanson "décembre 1976"@fr ;
+       :dureeChanson "3mn55"@fr ;
+       :titreChanson "I Wish" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#IsntSheLovely
+:IsntSheLovely rdf:type owl:NamedIndividual ,
+                        :Chanson ;
+               :aPourGenreMusical :Soul ;
+               :compose :SongsInTheKeyOfLife ;
+               :dureeChanson "6mn33"@fr ;
+               :idChanson 2 ;
+               :titreChanson "Isnt She Lovely" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#SirDuke
+:SirDuke rdf:type owl:NamedIndividual ,
+                  :Chanson ;
+         :aPourArtiste :StevieWonder ;
+         :aPourGenreMusical :Funk ;
+         :compose :SongsInTheKeyOfLife ;
+         :estComposéDe :IWish ;
+         :dateParutionChanson "3"@fr ;
+         :dureeChanson "3mn52"@fr ;
+         :idChanson 3 ;
+         :titreChanson "Sir Duke" .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#SmoothSoul
+:SmoothSoul rdf:type owl:NamedIndividual ,
+                     :Sous_Categorie_Genre_Musical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#SongsInTheKeyOfLife
+:SongsInTheKeyOfLife rdf:type owl:NamedIndividual ,
+                              :Album ,
+                              :DoubleDiamant ;
+                     :estComposéDe :AnotherStar ,
+                                   :As ,
+                                   :IsntSheLovely ,
+                                   :SirDuke ;
+                     :dateDeParutionAlbum "decembre 1977"@fr ;
+                     :nbVente 1000000000 ;
+                     :titreAlbum "Songs In the Key Of Life"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#Soul
+:Soul rdf:type owl:NamedIndividual ,
+               :GrandGenreMusical .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#StevieWonder
+:StevieWonder rdf:type owl:NamedIndividual ,
+                       :Artiste ;
+              :dateNaissanceArtiste "13 mai 1950"@fr ;
+              :nationaliteArtiste "Americaine"@fr ;
+              :nomArtiste "Wonder"@fr ;
+              :prenomArtiste "Stevie"@fr .
+
+
+###  http://www.semanticweb.org/aissa/ontologies/2022/11/protjet_OM#ThomasBangalter
+:ThomasBangalter rdf:type owl:NamedIndividual ,
+                          :Artiste ;
+                 :estLeMembreDe :DaftPunk ;
+                 :nomArtiste "Bangalter" ;
+                 :prenomArtiste "Thomas" .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
